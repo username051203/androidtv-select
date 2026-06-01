@@ -44,7 +44,9 @@ jobs:
 
       # 5. Build the debug APK
       - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: sudo apt-get update
+             sudo apt-get install gradle
+             gradlew assembleDebug --stacktrace
 
       # 6. Upload APK as a downloadable artifact
       #    Go to: Actions tab → your run → scroll down → Artifacts → download
