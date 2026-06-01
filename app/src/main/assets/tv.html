@@ -177,6 +177,30 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
   padding:13px 26px;border-radius:9px;font-size:15px;z-index:3000;white-space:nowrap;
   transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 28px rgba(0,0,0,.6)}
 #toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ACCOUNT PANEL */
+#acct-panel{display:none;position:fixed;top:76px;right:20px;width:300px;
+  background:var(--surf);border:1px solid var(--border);border-radius:12px;
+  z-index:500;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.8)}
+#acct-panel.open{display:block}
+.ap-head{display:flex;align-items:center;gap:14px;padding:20px 20px 16px}
+.ap-avatar{width:52px;height:52px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#FF6B35,#FF0000);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px}
+.ap-name{font-size:16px;font-weight:700;margin-bottom:3px}
+.ap-email{font-size:13px;color:var(--txt2)}
+.ap-divider{height:1px;background:var(--border);margin:0 16px}
+.ap-item{display:flex;align-items:center;gap:13px;padding:13px 20px;
+  color:var(--txt2);font-size:15px;font-weight:500;cursor:pointer;transition:all .15s}
+.ap-item:hover{background:rgba(255,255,255,.07);color:#fff}
+.ap-item svg{flex-shrink:0;opacity:.75}
+.ap-footer{padding:14px 20px;display:flex;gap:10px}
+.ap-btn{flex:1;padding:9px 0;border-radius:8px;border:none;font-size:14px;
+  font-weight:600;cursor:pointer;font-family:'Roboto',sans-serif;transition:all .15s}
+.ap-btn-sign{background:var(--red);color:#fff}
+.ap-btn-sign:hover{background:#cc0000}
+.ap-btn-out{background:var(--surf3);color:var(--txt2)}
+.ap-btn-out:hover{background:#3a3a3a;color:#fff}
 </style>
 </head>
 <body>
@@ -203,7 +227,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
     <button class="icbtn" title="Notifications">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6V11c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
     </button>
-    <div class="avatar">Y</div>
+    <div class="avatar" onclick="toggleAcctPanel()" id="avatar-btn" tabindex="0">Y</div>
   </div>
 </header>
 
@@ -297,6 +321,40 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
       <input type="range" id="volsl" min="0" max="100" value="80" oninput="setVol(this.value)">
       <button class="cb" onclick="document.getElementById('plmodal').requestFullscreen?.()"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
     </div>
+  </div>
+</div>
+
+
+<!-- ACCOUNT PANEL -->
+<div id="acct-panel">
+  <div class="ap-head">
+    <div class="ap-avatar">Y</div>
+    <div>
+      <div class="ap-name">YouTube TV User</div>
+      <div class="ap-email">user@gmail.com</div>
+    </div>
+  </div>
+  <div class="ap-divider"></div>
+  <div class="ap-item" onclick="apAction('profile')">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    Manage Account
+  </div>
+  <div class="ap-item" onclick="apAction('purchases')">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+    Purchases & Memberships
+  </div>
+  <div class="ap-item" onclick="apAction('settings')">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+    Settings
+  </div>
+  <div class="ap-item" onclick="apAction('help')">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+    Help & Feedback
+  </div>
+  <div class="ap-divider"></div>
+  <div class="ap-footer">
+    <button class="ap-btn ap-btn-sign" onclick="apAction('switch')">Switch Account</button>
+    <button class="ap-btn ap-btn-out" onclick="apAction('signout')">Sign Out</button>
   </div>
 </div>
 
@@ -661,6 +719,35 @@ function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 function J(s){ return JSON.stringify(String(s||'')); }
 let toastTO;
 function toast(m,ms=3000){ const e=document.getElementById('toast'); e.textContent=m; e.classList.add('show'); clearTimeout(toastTO); toastTO=setTimeout(()=>e.classList.remove('show'),ms); }
+
+// ── ACCOUNT PANEL ──
+function toggleAcctPanel(){
+  const p = document.getElementById('acct-panel');
+  p.classList.toggle('open');
+}
+function closeAcctPanel(){
+  document.getElementById('acct-panel').classList.remove('open');
+}
+function apAction(action){
+  closeAcctPanel();
+  const msgs = {
+    profile:   'Manage Account — not connected in demo',
+    purchases: 'Purchases & Memberships — not connected in demo',
+    settings:  'Settings — not connected in demo',
+    help:      'Help & Feedback — not connected in demo',
+    switch:    'Switch Account — not connected in demo',
+    signout:   'Signed out'
+  };
+  toast(msgs[action] || action);
+}
+// Close panel when clicking outside
+document.addEventListener('click', function(e){
+  const panel = document.getElementById('acct-panel');
+  const btn   = document.getElementById('avatar-btn');
+  if(panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn){
+    closeAcctPanel();
+  }
+});
 
 init();
 </script>
