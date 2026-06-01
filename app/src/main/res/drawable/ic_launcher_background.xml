@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android TV Launcher Banner (320x180dp)
+  Replace ic_launcher.png in mipmap-hdpi with a real 320x180px PNG for the TV launcher.
+  This drawable is a vector fallback.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FF0000"/>
+    <corners android:radius="8dp"/>
+</shape>
