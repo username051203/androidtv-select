@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>YouTube TV</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=YouTube+Sans:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
 :root{
   --red:#FF0000;--dark:#0F0F0F;--surf:#1C1C1C;--surf2:#232323;--surf3:#2C2C2C;
   --border:#333;--txt:#FFF;--txt2:#AAA;--txt3:#555;
@@ -14,7 +14,7 @@
 html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
   color:var(--txt);font-family:'Roboto',sans-serif;-webkit-font-smoothing:antialiased}
 
-/* TOPBAR */
+/* ── TOPBAR ── */
 #topbar{position:fixed;top:0;left:0;right:0;height:var(--top);
   background:rgba(15,15,15,.97);backdrop-filter:blur(12px);
   display:flex;align-items:center;padding:0 36px;z-index:100;
@@ -41,7 +41,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
   background:linear-gradient(135deg,#FF6B35,#FF0000);
   display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;cursor:pointer}
 
-/* SIDEBAR */
+/* ── SIDEBAR ── */
 #sidebar{position:fixed;top:var(--top);left:0;bottom:0;width:var(--sidebar);
   background:var(--dark);padding:18px 0;z-index:90;overflow-y:auto;
   border-right:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;gap:1px}
@@ -55,13 +55,13 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
 .slabel{font-size:11px;color:var(--txt3);text-transform:uppercase;
   letter-spacing:1.4px;font-weight:700;padding:12px 22px 5px}
 
-/* MAIN */
+/* ── MAIN ── */
 #main{position:fixed;top:var(--top);left:var(--sidebar);right:0;bottom:0;
   overflow-y:auto;overflow-x:hidden;padding:34px 44px;background:var(--dark)}
 #main::-webkit-scrollbar{width:5px}
 #main::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-/* CHIPS */
+/* ── CHIPS ── */
 .chips{display:flex;gap:8px;margin-bottom:26px;overflow:hidden}
 .chip{padding:7px 17px;border-radius:17px;border:none;background:var(--surf2);
   color:var(--txt2);font-size:14px;font-weight:500;cursor:pointer;
@@ -69,16 +69,16 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
 .chip:hover{background:var(--surf3);color:#fff}
 .chip.on{background:#fff;color:#000;font-weight:700}
 
-/* SECTION */
+/* ── SECTION HEADERS ── */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .sh h2{font-size:19px;font-weight:700}
 .sh a{font-size:14px;color:var(--txt2);cursor:pointer}
 .sh a:hover{color:#fff}
 
-/* VIDEO GRID */
+/* ── VIDEO GRID ── */
 .vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-bottom:44px}
 
-/* CARD */
+/* ── CARD ── */
 .vc{cursor:pointer;border-radius:9px;overflow:hidden;background:var(--surf);
   transition:transform .22s cubic-bezier(.25,.46,.45,.94),box-shadow .22s;position:relative}
 .vc:hover{transform:scale(1.04);box-shadow:0 14px 44px rgba(0,0,0,.75);z-index:5}
@@ -103,13 +103,46 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
 .vch{font-size:12px;color:var(--txt2);margin-bottom:2px}
 .vst{font-size:11px;color:var(--txt3)}
 
-/* EMPTY STATE */
+/* ── EMPTY STATE ── */
 .empty{grid-column:span 4;text-align:center;padding:70px 0}
 .empty-ico{font-size:60px;margin-bottom:18px;opacity:.25}
 .empty h3{font-size:20px;font-weight:600;margin-bottom:8px;color:var(--txt2)}
 .empty p{font-size:15px;color:var(--txt3);max-width:460px;margin:0 auto;line-height:1.65}
 
-/* SEARCH SPINNER — just a spinner, no explanation */
+/* ── SEARCH KEYBOARD ── */
+#kb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);
+  z-index:850;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px)}
+#kb-overlay.open{display:flex}
+#kb-panel{width:1100px;background:var(--surf);border:1px solid var(--border);
+  border-radius:18px 18px 0 0;padding:28px 36px 36px;
+  box-shadow:0 -20px 80px rgba(0,0,0,.8)}
+#kb-query-wrap{display:flex;align-items:center;gap:16px;margin-bottom:22px;
+  background:var(--surf2);border:2px solid var(--border);border-radius:12px;padding:14px 20px}
+#kb-query-icon{color:var(--txt3)}
+#kb-query{flex:1;font-size:26px;font-weight:500;color:#fff;background:transparent;
+  border:none;outline:none;font-family:'Roboto',sans-serif;letter-spacing:.3px;caret-color:var(--red)}
+#kb-query::placeholder{color:var(--txt3)}
+#kb-cursor{width:2px;height:28px;background:var(--red);border-radius:1px;
+  animation:blink .9s step-end infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.kb-rows{display:flex;flex-direction:column;gap:8px}
+.kb-row{display:flex;justify-content:center;gap:6px}
+.kb-key{min-width:62px;height:58px;border-radius:9px;border:1.5px solid var(--border);
+  background:var(--surf2);color:#fff;font-size:17px;font-weight:500;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .12s;
+  font-family:'Roboto',sans-serif;padding:0 10px}
+.kb-key:hover{background:var(--surf3);border-color:#555;transform:translateY(-1px)}
+.kb-key:active{background:#404040;transform:translateY(0)}
+.kb-key.wide{min-width:100px}
+.kb-key.xwide{min-width:180px}
+.kb-key.action{background:var(--red);border-color:var(--red);font-weight:700}
+.kb-key.action:hover{background:#cc0000;border-color:#cc0000}
+.kb-key.del{color:var(--txt2)}
+.kb-key.space{letter-spacing:2px;font-size:13px;color:var(--txt2)}
+.kb-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.kb-hint{font-size:13px;color:var(--txt3)}
+
+/* ── SEARCH SPINNER ── */
 #so{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);
   z-index:800;flex-direction:column;align-items:center;justify-content:center;gap:24px}
 #so.open{display:flex}
@@ -119,7 +152,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
 .soq{font-size:26px;font-weight:700;color:#fff}
 .sow{font-size:17px;color:var(--txt2)}
 
-/* SEARCH RESULTS PAGE — full screen, scrollable */
+/* ── SEARCH RESULTS ── */
 #srp{display:none;position:fixed;inset:0;background:var(--dark);z-index:700;
   overflow-y:auto;padding:36px 56px 56px}
 #srp::-webkit-scrollbar{width:5px}
@@ -127,18 +160,16 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
 #srp.open{display:block}
 .srbar{display:flex;align-items:center;gap:16px;margin-bottom:28px;
   position:sticky;top:0;background:var(--dark);padding:16px 0;
-  border-bottom:1px solid rgba(255,255,255,.06);margin-left:-56px;margin-right:-56px;
-  padding-left:56px;padding-right:56px;z-index:10}
+  border-bottom:1px solid rgba(255,255,255,.06);
+  margin-left:-56px;margin-right:-56px;padding-left:56px;padding-right:56px;z-index:10}
 .srback{background:var(--surf2);border:none;color:var(--txt2);width:44px;height:44px;
   border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .srback:hover{background:var(--surf3);color:#fff}
 .srq{font-size:22px;font-weight:700}
 .srcount{font-size:14px;color:var(--txt3);margin-left:auto}
-
-/* Search results grid — 5 columns to fit more */
 .sr-vgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;margin-top:28px}
 
-/* PLAYER */
+/* ── PLAYER ── */
 #plmodal{display:none;position:fixed;inset:0;background:#000;z-index:1000;flex-direction:column}
 #plmodal.open{display:flex}
 #plcont{flex:1;position:relative;background:#000}
@@ -171,14 +202,14 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
 #volsl::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;
   border-radius:50%;background:#fff;cursor:pointer}
 
-/* TOAST */
+/* ── TOAST ── */
 #toast{position:fixed;bottom:44px;left:50%;transform:translateX(-50%) translateY(120px);
   background:var(--surf2);border:1px solid var(--border);color:#fff;
   padding:13px 26px;border-radius:9px;font-size:15px;z-index:3000;white-space:nowrap;
   transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 28px rgba(0,0,0,.6)}
 #toast.show{transform:translateX(-50%) translateY(0)}
 
-/* ACCOUNT PANEL */
+/* ── ACCOUNT PANEL ── */
 #acct-panel{display:none;position:fixed;top:76px;right:20px;width:300px;
   background:var(--surf);border:1px solid var(--border);border-radius:12px;
   z-index:500;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.8)}
@@ -201,11 +232,28 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
 .ap-btn-sign:hover{background:#cc0000}
 .ap-btn-out{background:var(--surf3);color:var(--txt2)}
 .ap-btn-out:hover{background:#3a3a3a;color:#fff}
+
+/* ── HIDDEN PAIR PANEL ── triggered by triple-clicking clock ── */
+#pair-panel{display:none;position:fixed;bottom:28px;right:28px;width:320px;
+  background:var(--surf);border:1px solid var(--border);border-radius:14px;
+  z-index:600;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.9);
+  animation:fadeUp .2s ease}
+#pair-panel.open{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.pp-head{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between}
+.pp-head h4{font-size:14px;font-weight:700;color:var(--txt2)}
+.pp-close{background:none;border:none;color:var(--txt3);cursor:pointer;font-size:18px;line-height:1}
+.pp-code{font-size:44px;font-weight:700;letter-spacing:10px;text-align:center;
+  padding:10px 0 16px;font-variant-numeric:tabular-nums;color:#fff}
+.pp-hint{font-size:12px;color:var(--txt3);text-align:center;padding:0 18px 16px;line-height:1.5}
+
+/* ── INFINITE SCROLL LOAD INDICATOR ── */
+.inf-spinner{grid-column:span 5;display:flex;justify-content:center;padding:32px}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR — clean, no phone/pair mentions -->
+<!-- TOPBAR -->
 <header id="topbar">
   <div class="logo" onclick="goHome()">
     <div class="logo-icon">
@@ -217,11 +265,12 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
   <nav class="topnav">
     <button class="tn on" id="tn-home" onclick="goHome()">Home</button>
     <button class="tn" id="tn-subs" onclick="goPage('subs')">Subscriptions</button>
-    <button class="tn" id="tn-lib" onclick="goPage('lib')">Library</button>
+    <button class="tn" id="tn-lib"  onclick="goPage('lib')">Library</button>
   </nav>
   <div class="topright">
-    <span id="clock"></span>
-    <button class="icbtn" onclick="startSearch()" title="Search">
+    <!-- Triple-click clock to reveal pairing panel -->
+    <span id="clock" title="" onclick="clockClick()" style="cursor:default;user-select:none"></span>
+    <button class="icbtn" onclick="openKeyboard()" title="Search">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
     </button>
     <button class="icbtn" title="Notifications">
@@ -277,14 +326,32 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
   </div>
 </main>
 
-<!-- SEARCH SPINNER — just spins, no "waiting for phone" text -->
+<!-- KEYBOARD SEARCH OVERLAY -->
+<div id="kb-overlay">
+  <div id="kb-panel">
+    <div id="kb-query-wrap">
+      <div id="kb-query-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="color:var(--txt3)"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </div>
+      <div id="kb-query" placeholder="Search…"></div>
+      <div id="kb-cursor"></div>
+    </div>
+    <div class="kb-rows" id="kb-rows"></div>
+    <div class="kb-bottom">
+      <span class="kb-hint">Click keys or type on keyboard</span>
+      <button class="kb-key wide" onclick="closeKeyboard()" style="font-size:14px;color:var(--txt2)">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH SPINNER — pure spinner, no explanation -->
 <div id="so">
   <div class="spin"></div>
   <div class="soq" id="soq"></div>
   <div class="sow">Searching…</div>
 </div>
 
-<!-- SEARCH RESULTS — full screen, scrollable, 5-col grid -->
+<!-- SEARCH RESULTS — full screen, infinite scroll -->
 <div id="srp">
   <div class="srbar">
     <button class="srback" onclick="closeSRP()">
@@ -324,7 +391,6 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
   </div>
 </div>
 
-
 <!-- ACCOUNT PANEL -->
 <div id="acct-panel">
   <div class="ap-head">
@@ -344,7 +410,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
     Purchases & Memberships
   </div>
   <div class="ap-item" onclick="apAction('settings')">
-    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
     Settings
   </div>
   <div class="ap-item" onclick="apAction('help')">
@@ -358,96 +424,286 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--dark);
   </div>
 </div>
 
+<!-- HIDDEN PAIR PANEL — accessible only by triple-clicking the clock -->
+<div id="pair-panel">
+  <div class="pp-head">
+    <h4>Device Pairing</h4>
+    <button class="pp-close" onclick="closePairPanel()">×</button>
+  </div>
+  <div class="pp-code" id="pp-code">——</div>
+  <div class="pp-hint">Enter this code in the companion app on your phone while connected to the same network.</div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-const LS_SESSION = 'ytb_session';
-const LS_DATA    = 'ytb_data';
+// ══════════════════════════════════════════════════════
+//  SYNC LAYER — Firebase primary, localStorage fallback
+//
+//  Fill in FIREBASE_URL + FIREBASE_KEY for cross-network
+//  (phone ↔ TV over internet / different networks).
+//  Leave as placeholder strings and it silently falls
+//  back to localStorage + BroadcastChannel for same-
+//  browser / same-device use.
+// ══════════════════════════════════════════════════════
+const FIREBASE_URL = 'https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com';
+const FIREBASE_KEY = 'YOUR_WEB_API_KEY';
+const FB_ENABLED   = !FIREBASE_URL.includes('YOUR_PROJECT');
+
+// ── Session code: TV generates and owns it ──
+const LS_CODE    = 'ytb_tv_code';
+const LS_DATA_FB = 'ytb_data';   // fallback localStorage keys
 const LS_EVENT   = 'ytb_event';
 
-// Ensure session code exists
-let code = localStorage.getItem(LS_SESSION);
-if (!code) { code = String(Math.floor(100000 + Math.random() * 900000)); localStorage.setItem(LS_SESSION, code); }
+let code = localStorage.getItem(LS_CODE);
+if(!code){ code=String(Math.floor(100000+Math.random()*900000)); localStorage.setItem(LS_CODE,code); }
+document.getElementById('pp-code').textContent = code;
 
-function loadD(){ try{return JSON.parse(localStorage.getItem(LS_DATA))||empty();}catch{return empty();} }
-function empty(){ return {videos:[],pendingSearch:null,searchDecision:null}; }
-function saveD(d){ localStorage.setItem(LS_DATA, JSON.stringify(d)); }
+// Firebase REST paths
+const FB_ROOT  = ()=>`${FIREBASE_URL}/sessions/${code}`;
+const FB_DATA  = ()=>`${FB_ROOT()}/data.json`;
+const FB_EVENT = ()=>`${FB_ROOT()}/events.json`;
 
-let D = loadD();
+// In-memory state
+let D = {videos:[],pendingSearch:null,searchDecision:null};
+let pendingQuery = null;
+let fbEventSrc   = null;
+
+// ── BroadcastChannel fallback (same-browser) ──
 let BC;
-try{
-  BC = new BroadcastChannel('ytb_ch_' + code);
-  BC.onmessage = e => onEvent(e.data);
-}catch(x){}
+try{ BC=new BroadcastChannel('ytb_ch_'+code); BC.onmessage=e=>onEvent(e.data); }catch(x){}
 
-window.addEventListener('storage', e => {
-  if(e.key === LS_DATA){ D = loadD(); onDataChange(); }
-  if(e.key === LS_EVENT){ try{ onEvent(JSON.parse(e.newValue)); }catch{} }
+// ── localStorage fallback (cross-tab, same device) ──
+window.addEventListener('storage', e=>{
+  if(e.key===LS_DATA_FB){ try{ D={...D,...JSON.parse(e.newValue)}; onDataChange(); }catch{} }
+  if(e.key===LS_EVENT){   try{ onEvent(JSON.parse(e.newValue)); }catch{} }
 });
 
-let lastStr = '';
-setInterval(()=>{
-  const raw = localStorage.getItem(LS_DATA)||'{}';
-  if(raw !== lastStr){ lastStr = raw; D = loadD(); onDataChange(); }
-}, 600);
-
-function broadcast(ev){
-  if(BC) BC.postMessage(ev);
-  localStorage.setItem(LS_EVENT, JSON.stringify({...ev, _ts: Date.now()}));
+// ── Firebase REST helpers ──
+async function fbGet(url){
+  try{ const r=await fetch(url); if(!r.ok) return null; return await r.json(); }catch{ return null; }
+}
+async function fbSet(url,data){
+  try{ await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); }catch(e){ console.warn('fbSet',e); }
+}
+async function fbPush(url,data){
+  try{ await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); }catch(e){ console.warn('fbPush',e); }
 }
 
-// ── EVENT HANDLER ──
-let pendingQuery = null;
+// ── Load: Firebase first, localStorage as fallback ──
+async function loadD(){
+  if(FB_ENABLED){
+    const d=await fbGet(FB_DATA());
+    if(d){ D={...{videos:[],pendingSearch:null,searchDecision:null},...d}; return D; }
+  }
+  // localStorage fallback
+  try{ D={...{videos:[],pendingSearch:null,searchDecision:null},...JSON.parse(localStorage.getItem(LS_DATA_FB))}; }catch{}
+  return D;
+}
 
+// ── Save: write to both so fallback always has latest ──
+async function saveD(d){
+  D=d;
+  localStorage.setItem(LS_DATA_FB, JSON.stringify(d));
+  if(FB_ENABLED) await fbSet(FB_DATA(), d);
+}
+
+// ── Broadcast: fire both channels simultaneously ──
+async function broadcast(ev){
+  // BroadcastChannel (same browser, instant)
+  if(BC) BC.postMessage(ev);
+  // localStorage event bus (cross-tab, same device)
+  localStorage.setItem(LS_EVENT, JSON.stringify({...ev,_ts:Date.now()}));
+  // Firebase (cross-network, primary)
+  if(FB_ENABLED) await fbPush(FB_EVENT(), {...ev,_ts:Date.now(),_from:'tv'});
+}
+
+// ── Firebase SSE: real-time push from phone ──
+function startSSE(){
+  if(!FB_ENABLED) return;
+  if(fbEventSrc) fbEventSrc.close();
+  fbEventSrc=new EventSource(`${FB_ROOT()}/events.json?orderBy="$key"&limitToLast=1&auth=${FIREBASE_KEY}`);
+  fbEventSrc.addEventListener('put', e=>{
+    try{
+      const payload=JSON.parse(e.data);
+      if(!payload||!payload.data) return;
+      const vals=Object.values(payload.data);
+      const ev=vals[vals.length-1];
+      if(!ev||!ev.type||ev._from==='tv') return;
+      onEvent(ev);
+    }catch{}
+  });
+  fbEventSrc.onerror=()=>{ setTimeout(startSSE,3000); };
+}
+
+// ── Polling fallback: catches anything SSE or BC missed ──
+let _lastPoll='';
+setInterval(async()=>{
+  if(FB_ENABLED){
+    const d=await fbGet(FB_DATA());
+    if(!d) return;
+    const s=JSON.stringify(d);
+    if(s===_lastPoll) return;
+    _lastPoll=s;
+    D={...{videos:[],pendingSearch:null,searchDecision:null},...d};
+  } else {
+    const raw=localStorage.getItem(LS_DATA_FB)||'{}';
+    if(raw===_lastPoll) return;
+    _lastPoll=raw;
+    try{ D={...{videos:[],pendingSearch:null,searchDecision:null},...JSON.parse(raw)}; }catch{ return; }
+  }
+  onDataChange();
+}, 2000);
+
+// ── EVENT HANDLER ──
 function onEvent(ev){
   if(!ev||!ev.type) return;
-  if(ev.type === 'VIDEOS_UPDATED'){ D = loadD(); renderHomeGrid(); }
-  if(ev.type === 'SEARCH_APPROVED' && ev.query === pendingQuery){
-    closeSO(); showSRP(ev.query, ev.results);
-  }
-  if(ev.type === 'SEARCH_DISAPPROVED' && ev.query === pendingQuery){
-    closeSO(); showSRP(ev.query, ev.selected);
-  }
-  if(ev.type === 'PLAY_FROM_PHONE'){ playV(ev.url, ev.title, ev.channel); }
-  if(ev.type === 'PHONE_CONNECTED'){ /* silent — TV user doesn't need to know */ }
+  if(ev.type==='VIDEOS_UPDATED'){       loadD().then(()=>renderHomeGrid()); }
+  if(ev.type==='SEARCH_APPROVED'    && ev.query===pendingQuery){ closeSO(); showSRP(ev.query,ev.results); }
+  if(ev.type==='SEARCH_DISAPPROVED' && ev.query===pendingQuery){ closeSO(); showSRP(ev.query,ev.selected); }
+  if(ev.type==='PLAY_FROM_PHONE'){      playV(ev.url,ev.title,ev.channel); }
 }
 
 function onDataChange(){
   renderHomeGrid();
-  const d = loadD();
-  if(d.searchDecision && d.searchDecision.query === pendingQuery && pendingQuery){
-    const dec = d.searchDecision;
+  if(D.searchDecision && D.searchDecision.query===pendingQuery && pendingQuery){
+    const dec=D.searchDecision;
     closeSO();
-    if(dec.type === 'approve') showSRP(dec.query, dec.results);
-    else showSRP(dec.query, dec.selected);
-    pendingQuery = null;
-    d.searchDecision = null; saveD(d);
+    if(dec.type==='approve') showSRP(dec.query,dec.results);
+    else                     showSRP(dec.query,dec.selected);
+    pendingQuery=null;
+    D.searchDecision=null;
+    saveD(D);
   }
 }
 
-// ── INIT ──
-function init(){
-  tick(); setInterval(tick, 1000);
-  renderHomeGrid(); renderMocks();
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+async function init(){
+  tick(); setInterval(tick,1000);
+  await loadD(); renderHomeGrid(); renderMocks();
+  startSSE();
   document.querySelectorAll('.chip').forEach(c=>{
     c.addEventListener('click',()=>{
       document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
       c.classList.add('on');
     });
   });
-  document.addEventListener('keydown', onKey);
-  document.getElementById('plmodal').addEventListener('mousemove', showCtrl);
+  document.addEventListener('keydown',onKey);
+  document.getElementById('plmodal').addEventListener('mousemove',showCtrl);
+  buildKeyboard();
 }
-function tick(){ document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }
+function tick(){ document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }
 
-// ── RENDER ──
-const PAL = ['#e53935','#1e88e5','#43a047','#8e24aa','#fb8c00','#00acc1','#d81b60','#546e7a'];
+// ══════════════════════════════════════════════════════
+//  HIDDEN PAIRING — triple-click the clock to reveal
+// ══════════════════════════════════════════════════════
+let clockClicks=0, clockTO=null;
+function clockClick(){
+  clockClicks++;
+  clearTimeout(clockTO);
+  clockTO=setTimeout(()=>{ clockClicks=0; },600);
+  if(clockClicks>=3){
+    clockClicks=0;
+    document.getElementById('pair-panel').classList.toggle('open');
+  }
+}
+function closePairPanel(){ document.getElementById('pair-panel').classList.remove('open'); }
 
-function card(v, seed, i, tag){
-  const col = PAL[i % PAL.length];
-  const ltr = ((v.channel||v.title||'?')[0]).toUpperCase();
-  const img = v.thumb || `https://picsum.photos/seed/${seed}/640/360`;
-  const onclick = v.url ? `playV(${J(v.url)},${J(v.title)},${J(v.channel||'')})` : `toast('No URL')`;
+// ══════════════════════════════════════════════════════
+//  ON-SCREEN KEYBOARD
+// ══════════════════════════════════════════════════════
+let kbText='';
+const KB_LAYOUT=[
+  ['1','2','3','4','5','6','7','8','9','0'],
+  ['q','w','e','r','t','y','u','i','o','p'],
+  ['a','s','d','f','g','h','j','k','l'],
+  ['z','x','c','v','b','n','m'],
+];
+
+function buildKeyboard(){
+  const rows=document.getElementById('kb-rows');
+  rows.innerHTML='';
+  KB_LAYOUT.forEach(row=>{
+    const div=document.createElement('div');
+    div.className='kb-row';
+    row.forEach(k=>{
+      const btn=document.createElement('button');
+      btn.className='kb-key';
+      btn.textContent=k.toUpperCase();
+      btn.onclick=()=>kbPress(k);
+      div.appendChild(btn);
+    });
+    // Special keys on last row
+    if(row===KB_LAYOUT[KB_LAYOUT.length-1]){
+      const sp=document.createElement('button');
+      sp.className='kb-key xwide space'; sp.textContent='SPACE'; sp.onclick=()=>kbPress(' ');
+      const del=document.createElement('button');
+      del.className='kb-key wide del'; del.innerHTML='⌫ Delete'; del.onclick=kbDel;
+      const go=document.createElement('button');
+      go.className='kb-key xwide action'; go.textContent='Search'; go.onclick=kbSubmit;
+      div.appendChild(sp); div.appendChild(del); div.appendChild(go);
+    }
+    rows.appendChild(div);
+  });
+}
+
+function kbPress(ch){
+  kbText+=ch;
+  updateKbDisplay();
+}
+function kbDel(){
+  kbText=kbText.slice(0,-1);
+  updateKbDisplay();
+}
+function updateKbDisplay(){
+  document.getElementById('kb-query').textContent=kbText;
+}
+function kbSubmit(){
+  const q=kbText.trim();
+  if(!q){ toast('Enter something to search'); return; }
+  closeKeyboard();
+  startSearch(q);
+}
+
+function openKeyboard(){
+  kbText='';
+  updateKbDisplay();
+  document.getElementById('kb-overlay').classList.add('open');
+}
+function closeKeyboard(){
+  document.getElementById('kb-overlay').classList.remove('open');
+}
+
+// ══════════════════════════════════════════════════════
+//  SEARCH
+// ══════════════════════════════════════════════════════
+async function startSearch(q){
+  pendingQuery=q.trim();
+  document.getElementById('soq').textContent='"'+pendingQuery+'"';
+  document.getElementById('so').classList.add('open');
+  D.pendingSearch={query:pendingQuery,ts:Date.now(),status:'pending'};
+  D.searchDecision=null;
+  await saveD(D);
+  broadcast({type:'SEARCH_PENDING',query:pendingQuery});
+  // 90s timeout — spinner just disappears silently
+  const q2=pendingQuery;
+  setTimeout(()=>{ if(pendingQuery===q2){closeSO();pendingQuery=null;} },90000);
+}
+
+function closeSO(){ document.getElementById('so').classList.remove('open'); }
+
+// ══════════════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════════════
+const PAL=['#e53935','#1e88e5','#43a047','#8e24aa','#fb8c00','#00acc1','#d81b60','#546e7a'];
+
+function card(v,seed,i,tag){
+  const col=PAL[i%PAL.length];
+  const ltr=((v.channel||v.title||'?')[0]).toUpperCase();
+  const img=v.thumb||`https://picsum.photos/seed/${seed}/640/360`;
+  const onclick=v.url?`playV(${J(v.url)},${J(v.title)},${J(v.channel||'')})`:`toast('No URL')`;
   return `<div class="vc" onclick="${onclick}">
     <div class="vthumb">
       <img src="${img}" alt="" loading="lazy" onerror="this.parentNode.style.background='#2a2a2a'">
@@ -466,147 +722,142 @@ function card(v, seed, i, tag){
   </div>`;
 }
 
-// ── INFINITE SCROLL ENGINE ──
-// Generates endless unique result cards from a base pool by cycling + mutating titles/seeds.
-// Works for both search results and home grid fallback.
+// ══════════════════════════════════════════════════════
+//  INFINITE SCROLL ENGINE
+// ══════════════════════════════════════════════════════
+const INF_BATCH=20;
 
-const INF_BATCH = 20; // cards per batch load
-
-// Template pool used to generate infinite variety
-const RESULT_TEMPLATES = [
-  (q,n)=>({title:`${q} – Part ${n}`,           channel:'Top Channel',        views:`${(n*1.3).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`Everything About ${q} #${n}`, channel:'Knowledge Base',     views:`${(n*0.8).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} Explained (${2020+n%5})`,channel:'Explainer Hub',      views:`${(n*2.1).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`Why ${q} #${n}`,              channel:'Insight Daily',      views:`${(n*0.6).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q}: Complete Guide ${n}`,   channel:'Tutorial World',     views:`${(n*1.7).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} For Beginners Ep.${n}`,  channel:'EduStream',          views:`${(n*0.9).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`Top ${n*5} ${q} Moments`,     channel:'Top Moments',        views:`${(n*3.2).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} Documentary Vol.${n}`,   channel:'Doc World',          views:`${(n*1.1).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} Live ${2020+n%5}`,       channel:'Live Events',        views:`${(n*4.4).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`Honest Review: ${q} #${n}`,   channel:'Honest Reviews',     views:`${(n*0.5).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} Tier List ${n}`,         channel:'Tier List King',     views:`${(n*0.7).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`Reacting To ${q} #${n}`,      channel:'React Nation',       views:`${(n*2.3).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} News Update ${n}`,       channel:'News Now',           views:`${(n*1.9).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`How To ${q} – Lesson ${n}`,   channel:'How-To Hub',         views:`${(n*1.4).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`I Tried ${q} ${n} Days`,      channel:'Challenge Channel',  views:`${(n*3.8).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} vs Everything #${n}`,    channel:'Compare This',       views:`${(n*2.6).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} Masterclass Pt.${n}`,    channel:'MasterClass',        views:`${(n*1.2).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} Secrets #${n}`,          channel:'Insider Info',       views:`${(n*0.4).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
-  (q,n)=>({title:`${q} in ${n} Minutes`,        channel:'Quick Learn',        views:`${(n*5.1).toFixed(1)}M views`, dur:n+':00', ago:rAgo()}),
-  (q,n)=>({title:`${q} – Full Story ${n}`,      channel:'True Story Media',   views:`${(n*1.6).toFixed(1)}M views`, dur:rDur(), ago:rAgo()}),
+const RESULT_TEMPLATES=[
+  (q,n)=>({title:`${q} – Part ${n}`,              channel:'Top Channel',        views:`${(n*1.3).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`Everything About ${q} #${n}`,   channel:'Knowledge Base',     views:`${(n*0.8).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} Explained (${2020+n%5})`,  channel:'Explainer Hub',      views:`${(n*2.1).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`Why ${q} #${n}`,                channel:'Insight Daily',      views:`${(n*0.6).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q}: Complete Guide ${n}`,     channel:'Tutorial World',     views:`${(n*1.7).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} For Beginners Ep.${n}`,    channel:'EduStream',          views:`${(n*0.9).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`Top ${n*5} ${q} Moments`,       channel:'Top Moments',        views:`${(n*3.2).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} Documentary Vol.${n}`,     channel:'Doc World',          views:`${(n*1.1).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} Live ${2020+n%5}`,         channel:'Live Events',        views:`${(n*4.4).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`Honest Review: ${q} #${n}`,     channel:'Honest Reviews',     views:`${(n*0.5).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} Tier List ${n}`,           channel:'Tier List King',     views:`${(n*0.7).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`Reacting To ${q} #${n}`,        channel:'React Nation',       views:`${(n*2.3).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} News Update ${n}`,         channel:'News Now',           views:`${(n*1.9).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`How To ${q} – Lesson ${n}`,     channel:'How-To Hub',         views:`${(n*1.4).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`I Tried ${q} ${n} Days`,        channel:'Challenge Channel',  views:`${(n*3.8).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} vs Everything #${n}`,      channel:'Compare This',       views:`${(n*2.6).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} Masterclass Pt.${n}`,      channel:'MasterClass',        views:`${(n*1.2).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} Secrets #${n}`,            channel:'Insider Info',       views:`${(n*0.4).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
+  (q,n)=>({title:`${q} in ${n} Minutes`,          channel:'Quick Learn',        views:`${(n*5.1).toFixed(1)}M views`, dur:n+':00',ago:rAgo()}),
+  (q,n)=>({title:`${q} – Full Story ${n}`,        channel:'True Story Media',   views:`${(n*1.6).toFixed(1)}M views`, dur:rDur(),ago:rAgo()}),
 ];
-
 function rDur(){ const m=Math.floor(Math.random()*40+3),s=Math.floor(Math.random()*60); return m+':'+String(s).padStart(2,'0'); }
 function rAgo(){ const u=['hours','days','weeks','months','years'],r=Math.floor(Math.random()*u.length),n=Math.floor(Math.random()*11+1); return n+' '+u[r]+' ago'; }
 
-// Infinite scroll state per context
-const IS = {
-  search: { query:'', offset:0, loading:false, exhausted:false, allResults:[] },
-};
+const IS={ query:'',offset:0,loading:false };
 
-function generateBatch(query, offset, count){
-  // Produces `count` unique cards starting at `offset`
-  const out = [];
+function generateBatch(query,offset,count){
+  const out=[];
   for(let i=0;i<count;i++){
-    const n = offset + i + 1;
-    const tpl = RESULT_TEMPLATES[n % RESULT_TEMPLATES.length];
-    const v = tpl(query, n);
-    v.url = '';
-    v.thumb = `https://picsum.photos/seed/${encodeURIComponent(query)}${n}/640/360`;
+    const n=offset+i+1;
+    const tpl=RESULT_TEMPLATES[n%RESULT_TEMPLATES.length];
+    const v=tpl(query,n);
+    v.url='';
+    v.thumb=`https://picsum.photos/seed/${encodeURIComponent(query)}${n}/640/360`;
     out.push(v);
   }
   return out;
 }
 
-// Infinite scroll sentinel observer
-let srObserver = null;
-function setupSRInfiniteScroll(query){
-  if(srObserver){ srObserver.disconnect(); srObserver=null; }
-  IS.search = { query, offset:0, loading:false, exhausted:false };
-
-  // Remove existing sentinel
-  const old = document.getElementById('sr-sentinel');
+let srObserver=null;
+function setupInfiniteScroll(query){
+  if(srObserver){srObserver.disconnect();srObserver=null;}
+  IS.query=query; IS.offset=0; IS.loading=false;
+  const old=document.getElementById('sr-sentinel');
   if(old) old.remove();
-
-  // Create sentinel div at bottom of results
-  const sentinel = document.createElement('div');
-  sentinel.id = 'sr-sentinel';
-  sentinel.style.cssText = 'height:1px;grid-column:span 5;';
+  const sentinel=document.createElement('div');
+  sentinel.id='sr-sentinel';
+  sentinel.style.cssText='height:1px;grid-column:span 5;';
   document.getElementById('sr-grid').appendChild(sentinel);
-
-  srObserver = new IntersectionObserver(entries=>{
-    if(entries[0].isIntersecting && !IS.search.loading){
-      loadMoreSR();
-    }
-  }, { root: document.getElementById('srp'), rootMargin:'400px' });
-
+  srObserver=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting && !IS.loading) loadMoreSR();
+  },{root:document.getElementById('srp'),rootMargin:'500px'});
   srObserver.observe(sentinel);
 }
 
 function loadMoreSR(){
-  const st = IS.search;
-  if(st.loading) return;
-  st.loading = true;
-
-  // Show spinner row
-  const spinner = document.createElement('div');
-  spinner.id = 'sr-spinner';
-  spinner.style.cssText = 'grid-column:span 5;display:flex;justify-content:center;padding:32px;';
-  spinner.innerHTML = '<div class="spin" style="width:44px;height:44px;border-width:3px"></div>';
-  const grid = document.getElementById('sr-grid');
-  const sentinel = document.getElementById('sr-sentinel');
-  grid.insertBefore(spinner, sentinel);
-
-  // Simulate async fetch (replace setTimeout with real fetch() for live API)
+  if(IS.loading) return;
+  IS.loading=true;
+  const spinner=document.createElement('div');
+  spinner.id='sr-spinner';
+  spinner.className='inf-spinner';
+  spinner.innerHTML='<div class="spin" style="width:44px;height:44px;border-width:3px"></div>';
+  const grid=document.getElementById('sr-grid');
+  const sentinel=document.getElementById('sr-sentinel');
+  grid.insertBefore(spinner,sentinel);
   setTimeout(()=>{
-    const batch = generateBatch(st.query, st.offset, INF_BATCH);
-    st.offset += INF_BATCH;
-    st.loading = false;
-
-    // Remove spinner
-    const sp = document.getElementById('sr-spinner');
+    const batch=generateBatch(IS.query,IS.offset,INF_BATCH);
+    IS.offset+=INF_BATCH;
+    IS.loading=false;
+    const sp=document.getElementById('sr-spinner');
     if(sp) sp.remove();
-
-    // Append new cards before sentinel
-    const frag = document.createDocumentFragment();
+    const frag=document.createDocumentFragment();
     batch.forEach((v,i)=>{
-      const div = document.createElement('div');
-      div.innerHTML = card(v, 'isr'+(st.offset+i), st.offset+i, null);
+      const div=document.createElement('div');
+      div.innerHTML=card(v,'isr'+(IS.offset+i),IS.offset+i,null);
       frag.appendChild(div.firstElementChild);
     });
-    grid.insertBefore(frag, sentinel);
-  }, 600); // 600ms simulates network latency
+    grid.insertBefore(frag,sentinel);
+  },500);
 }
 
+function showSRP(query,results){
+  document.getElementById('srq-txt').textContent='Results for "'+query+'"';
+  document.getElementById('srcount-txt').textContent='';
+  const g=document.getElementById('sr-grid');
+  // Start with phone-provided results (if any), then infinite-generate more
+  const initial=(results&&results.length) ? results : generateBatch(query,0,INF_BATCH);
+  g.innerHTML=initial.map((v,i)=>card(v,'sr'+i,i,null)).join('');
+  IS.query=query;
+  IS.offset=initial.length;
+  setupInfiniteScroll(query);
+  document.getElementById('srp').classList.add('open');
+  document.getElementById('srp').scrollTop=0;
+}
+
+function closeSRP(){ document.getElementById('srp').classList.remove('open'); }
+
+// ══════════════════════════════════════════════════════
+//  HOME / LIBRARY GRIDS
+// ══════════════════════════════════════════════════════
 function renderHomeGrid(){
-  D = loadD();
-  const vids = D.videos||[];
-  const g = document.getElementById('home-grid');
+  D=loadD();
+  const vids=D.videos||[];
+  const g=document.getElementById('home-grid');
   if(!vids.length){
     g.innerHTML=`<div class="empty"><div class="empty-ico">🎬</div><h3>No videos yet</h3><p>Your curated videos will appear here.</p></div>`;
     return;
   }
-  g.innerHTML = vids.map((v,i)=>card(v,'uv'+i,i,'CUSTOM')).join('');
+  g.innerHTML=vids.map((v,i)=>card(v,'uv'+i,i,'CUSTOM')).join('');
 }
-
-const MOCK_V = [
-  {title:'Why Is The Sky Dark At Night?',channel:'Veritasium',views:'12M views',ago:'1 year ago',dur:'18:32',url:''},
-  {title:'I Gave $1,000,000 To Random People',channel:'MrBeast',views:'203M views',ago:'8 months ago',dur:'14:55',url:''},
-  {title:'M4 MacBook Pro Review',channel:'MKBHD',views:'5.1M views',ago:'4 months ago',dur:'22:18',url:''},
-  {title:'The Fermi Paradox',channel:'Kurzgesagt',views:'19M views',ago:'2 years ago',dur:'11:45',url:''},
+const MOCK_V=[
+  {title:'Why Is The Sky Dark At Night?',    channel:'Veritasium',views:'12M views',ago:'1 year ago', dur:'18:32',url:''},
+  {title:'I Gave $1,000,000 To Random People',channel:'MrBeast',  views:'203M views',ago:'8 months ago',dur:'14:55',url:''},
+  {title:'M4 MacBook Pro Review',            channel:'MKBHD',    views:'5.1M views',ago:'4 months ago',dur:'22:18',url:''},
+  {title:'The Fermi Paradox',                channel:'Kurzgesagt',views:'19M views', ago:'2 years ago',dur:'11:45',url:''},
 ];
 function renderMocks(){
-  document.getElementById('subs-grid').innerHTML = MOCK_V.map((v,i)=>card(v,'ms'+i,i,null)).join('');
+  document.getElementById('subs-grid').innerHTML=MOCK_V.map((v,i)=>card(v,'ms'+i,i,null)).join('');
   renderLibGrid();
 }
 function renderLibGrid(){
-  const vids = (loadD().videos||[]);
-  document.getElementById('lib-grid').innerHTML = vids.length
-    ? vids.map((v,i)=>card(v,'lv'+i,i,'CUSTOM')).join('')
-    : '<div class="empty"><div class="empty-ico">📂</div><h3>Library empty</h3><p>Your added videos will appear here.</p></div>';
+  const vids=(loadD().videos||[]);
+  document.getElementById('lib-grid').innerHTML=vids.length
+    ?vids.map((v,i)=>card(v,'lv'+i,i,'CUSTOM')).join('')
+    :'<div class="empty"><div class="empty-ico">📂</div><h3>Library empty</h3><p>Your added videos will appear here.</p></div>';
 }
 
-// ── NAVIGATION ──
+// ══════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════
 function goHome(){ goPage('home'); }
 function goPage(name){
   ['home','subs','lib'].forEach(p=>{
@@ -620,61 +871,15 @@ function goPage(name){
   if(name==='lib') renderLibGrid();
 }
 
-// ── SEARCH ──
-function startSearch(){
-  const q = prompt('Search:');
-  if(!q||!q.trim()) return;
-  pendingQuery = q.trim();
-  document.getElementById('soq').textContent = '"' + pendingQuery + '"';
-  document.getElementById('so').classList.add('open');
-  // Write to shared storage — mobile picks it up silently
-  const d = loadD();
-  d.pendingSearch = {query: pendingQuery, ts: Date.now(), status:'pending'};
-  d.searchDecision = null;
-  saveD(d);
-  broadcast({type:'SEARCH_PENDING', query: pendingQuery});
-  // Timeout 90s — spinner just disappears, no explanation shown
-  const q2 = pendingQuery;
-  setTimeout(()=>{
-    if(pendingQuery===q2){ closeSO(); pendingQuery=null; }
-  }, 90000);
-}
-
-function closeSO(){ document.getElementById('so').classList.remove('open'); }
-
-function showSRP(query, results){
-  document.getElementById('srq-txt').textContent = 'Results for "'+query+'"';
-  document.getElementById('srcount-txt').textContent = '';
-  const g = document.getElementById('sr-grid');
-
-  // Render initial batch (either mobile-provided results or first generated batch)
-  const initial = (results && results.length)
-    ? results  // phone-curated results shown first
-    : generateBatch(query, 0, INF_BATCH);
-
-  g.innerHTML = initial.map((v,i)=>card(v,'sr'+i,i,null)).join('');
-
-  // Set scroll state — offset starts after the initial cards
-  IS.search.query = query;
-  IS.search.offset = initial.length;
-
-  // Attach infinite scroll — keeps loading more as user scrolls
-  setupSRInfiniteScroll(query);
-
-  document.getElementById('srp').classList.add('open');
-  // Scroll search results page back to top
-  document.getElementById('srp').scrollTop = 0;
-}
-
-function closeSRP(){ document.getElementById('srp').classList.remove('open'); }
-
-// ── PLAYER ──
+// ══════════════════════════════════════════════════════
+//  PLAYER
+// ══════════════════════════════════════════════════════
 let ctrlTO;
 function playV(url,title,channel){
   if(!url){toast('No URL');return;}
   document.getElementById('pltit').textContent=title||'Video';
   document.getElementById('plch').textContent=channel||'';
-  const ifrm=document.getElementById('pliframe'), vid=document.getElementById('plvid');
+  const ifrm=document.getElementById('pliframe'),vid=document.getElementById('plvid');
   ifrm.style.display='none'; vid.style.display='none';
   const ytid=getYTId(url);
   if(ytid){ ifrm.src=`https://www.youtube.com/embed/${ytid}?autoplay=1&rel=0&modestbranding=1`; ifrm.style.display='block'; }
@@ -706,48 +911,55 @@ function toggleMute(){ const v=document.getElementById('plvid'); v.muted=!v.mute
 function ft(s){ if(!isFinite(s))return'0:00'; return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'); }
 function showCtrl(){ const c=document.getElementById('plctrl'); c.classList.remove('hide'); clearTimeout(ctrlTO); ctrlTO=setTimeout(()=>c.classList.add('hide'),4000); }
 
-// ── KEYBOARD ──
+// ══════════════════════════════════════════════════════
+//  KEYBOARD SHORTCUT HANDLER
+// ══════════════════════════════════════════════════════
 function onKey(e){
-  const open=document.getElementById('plmodal').classList.contains('open');
-  if(e.key==='Escape'){ closePlayer(); closeSRP(); closeSO(); }
-  if(open){ if(e.key===' '){e.preventDefault();togglePP();} if(e.key==='ArrowRight')skip(10); if(e.key==='ArrowLeft')skip(-10); }
+  const kbOpen=document.getElementById('kb-overlay').classList.contains('open');
+  const playerOpen=document.getElementById('plmodal').classList.contains('open');
+
+  if(kbOpen){
+    // Route keystrokes to keyboard search input
+    if(e.key==='Escape'){ closeKeyboard(); return; }
+    if(e.key==='Enter'){ kbSubmit(); return; }
+    if(e.key==='Backspace'){ e.preventDefault(); kbDel(); return; }
+    if(e.key.length===1){ kbPress(e.key); return; }
+  }
+
+  if(e.key==='Escape'){ closePlayer(); closeSRP(); closeSO(); closeKeyboard(); }
+  if(playerOpen){
+    if(e.key===' '){e.preventDefault();togglePP();}
+    if(e.key==='ArrowRight') skip(10);
+    if(e.key==='ArrowLeft')  skip(-10);
+  }
 }
 
-// ── UTILS ──
-function getYTId(url){ try{ const u=new URL(url); if(u.hostname.includes('youtube.com'))return u.searchParams.get('v'); if(u.hostname.includes('youtu.be'))return u.pathname.slice(1).split('?')[0]; }catch{}return null; }
+// ══════════════════════════════════════════════════════
+//  ACCOUNT PANEL
+// ══════════════════════════════════════════════════════
+function toggleAcctPanel(){ document.getElementById('acct-panel').classList.toggle('open'); }
+function closeAcctPanel(){  document.getElementById('acct-panel').classList.remove('open'); }
+function apAction(action){
+  closeAcctPanel();
+  const msgs={profile:'Manage Account',purchases:'Purchases & Memberships',settings:'Settings',help:'Help & Feedback',switch:'Switch Account',signout:'Signed out'};
+  toast(msgs[action]||action);
+}
+document.addEventListener('click',function(e){
+  const panel=document.getElementById('acct-panel');
+  const btn=document.getElementById('avatar-btn');
+  if(panel.classList.contains('open')&&!panel.contains(e.target)&&e.target!==btn) closeAcctPanel();
+  const pp=document.getElementById('pair-panel');
+  if(pp.classList.contains('open')&&!pp.contains(e.target)&&e.target!==document.getElementById('clock')) closePairPanel();
+});
+
+// ══════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════
+function getYTId(url){ try{const u=new URL(url);if(u.hostname.includes('youtube.com'))return u.searchParams.get('v');if(u.hostname.includes('youtu.be'))return u.pathname.slice(1).split('?')[0];}catch{}return null; }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function J(s){ return JSON.stringify(String(s||'')); }
 let toastTO;
 function toast(m,ms=3000){ const e=document.getElementById('toast'); e.textContent=m; e.classList.add('show'); clearTimeout(toastTO); toastTO=setTimeout(()=>e.classList.remove('show'),ms); }
-
-// ── ACCOUNT PANEL ──
-function toggleAcctPanel(){
-  const p = document.getElementById('acct-panel');
-  p.classList.toggle('open');
-}
-function closeAcctPanel(){
-  document.getElementById('acct-panel').classList.remove('open');
-}
-function apAction(action){
-  closeAcctPanel();
-  const msgs = {
-    profile:   'Manage Account — not connected in demo',
-    purchases: 'Purchases & Memberships — not connected in demo',
-    settings:  'Settings — not connected in demo',
-    help:      'Help & Feedback — not connected in demo',
-    switch:    'Switch Account — not connected in demo',
-    signout:   'Signed out'
-  };
-  toast(msgs[action] || action);
-}
-// Close panel when clicking outside
-document.addEventListener('click', function(e){
-  const panel = document.getElementById('acct-panel');
-  const btn   = document.getElementById('avatar-btn');
-  if(panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn){
-    closeAcctPanel();
-  }
-});
 
 init();
 </script>
